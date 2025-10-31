@@ -1,0 +1,68 @@
+<!-- templates/header.html -->
+{{ define "header" }}
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ or .title "web investasi" }}</title>
+  <!-- data di kirim dari di mana component di gunakan -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style type="text/tailwindcss">
+    @theme {
+      --color-clifford: #da373d;
+    }
+  </style>
+  <style>
+    :root {
+      --color-bg: #fcfcfc;
+
+      /* 🌫️ Utama & Netral */
+      --color-gray-light: #dadada;
+      --color-gray: #9ca3af;
+      --color-gray-dark: #6b7280;
+      --color-charcoal: #374151; /* Tegas tapi tidak mencolok */
+      --color-gainsboro: #dadada; /* Garis batas halus */
+      --color-jet-black: #111827; /* Kontras kuat untuk teks */
+
+      /* 💠 Tambahan / Aksen */
+      --color-steel-blue: #4682b4; /* Aksen tenang dan profesional */
+      --color-teal-gray: #5f9ea0; /* Biru kehijauan lembut */
+      --color-soft-beige: #e8e6e3; /* Kehangatan ringan */
+      --color-warm-taupe: #b2a59f; /* Premium dan seimbang */
+      --color-silver: #c0c0c0; /* Penegas visual netral */
+
+      /* 🔔 Status / Notifikasi */
+      --color-info: #3b82f6; /* Info (biru lembut) */
+      --color-success: #22c55e; /* Berhasil (hijau lembut) */
+      --color-warning: #facc15; /* Peringatan (kuning cerah) */
+      --color-error: #ef4444; /* Error (merah tegas) */
+      --color-neutral: #9ca3af; /* Status abu-abu netral */
+
+      /* === ⚡ EFECTS & TOKENS === */
+      /* 🧊 Shadow Variants */
+      --shadow-soft: 0 2px 4px rgba(17, 24, 39, 0.06);
+      --shadow-md: 0 4px 8px rgba(17, 24, 39, 0.1);
+      --shadow-lg: 0 6px 16px rgba(17, 24, 39, 0.15);
+      --shadow-glow: 0 0 12px rgba(70, 130, 180, 0.4); /* Steel blue glow */
+
+      /* 🌈 Gradient Variants */
+      --gradient-accent: linear-gradient(135deg, #4682b4 0%, #5f9ea0 100%);
+      --gradient-success: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+      --gradient-error: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+      --gradient-warning: linear-gradient(135deg, #facc15 0%, #eab308 100%);
+      --gradient-info: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+
+      /* ⚙️ Transition & Timing */
+      --transition-fast: all 0.2s ease-in-out;
+      --transition-medium: all 0.3s ease-in-out;
+      --transition-slow: all 0.5s ease;
+
+      /* 🔘 Button States */
+      --button-bg: var(--color-charcoal);
+      --button-bg-hover: var(--color-steel-blue);
+      --button-text: #ffffff;
+      --button-radius: var(--radius-lg);
+      --button-shadow: var(--shadow-md);
+    }
+  </style>
+</head>
+{{ end }}

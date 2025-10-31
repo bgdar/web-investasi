@@ -1,0 +1,80 @@
+{{ define "user/sign-up.html"}} {{ template "header" . }}
+<div class="min-h-screen flex items-center justify-center bg-[var(--color-bg)]">
+  <!-- Card Container -->
+  <div
+    class="w-full max-w-md bg-white p-8 rounded-2xl shadow-[var(--shadow-lg)] border border-[var(--color-gray-light)] transition-[var(--transition-medium)] hover:shadow-[var(--shadow-glow)]"
+  >
+    <h2
+      class="text-2xl font-semibold text-[var(--color-jet-black)] mb-2 text-center"
+    >
+      Buat Akun Investasi
+    </h2>
+    <p class="text-sm text-[var(--color-gray-dark)] text-center mb-6">
+      Daftar untuk mulai berinvestasi dengan aman dan mudah
+    </p>
+
+    <form class="space-y-4">
+      <div>
+        <label class="block text-[var(--color-charcoal)] font-medium mb-1"
+          >Nama Lengkap</label
+        >
+        <input
+          type="text"
+          placeholder="John Doe"
+          class="w-full p-3 rounded-lg border border-[var(--color-gray-light)] bg-[var(--color-bg)] text-[var(--color-jet-black)] focus:outline-none focus:ring-2 focus:ring-[var(--color-steel-blue)] focus:border-transparent transition-[var(--transition-fast)]"
+        />
+      </div>
+
+      <div>
+        <label class="block text-[var(--color-charcoal)] font-medium mb-1"
+          >Email</label
+        >
+        <input
+          type="email"
+          placeholder="contoh@email.com"
+          class="w-full p-3 rounded-lg border border-[var(--color-gray-light)] bg-[var(--color-bg)] text-[var(--color-jet-black)] focus:outline-none focus:ring-2 focus:ring-[var(--color-steel-blue)] transition-[var(--transition-fast)]"
+        />
+      </div>
+
+      <div>
+        <label class="block text-[var(--color-charcoal)] font-medium mb-1"
+          >Kata Sandi</label
+        >
+        <input
+          type="password"
+          placeholder="********"
+          class="w-full p-3 rounded-lg border border-[var(--color-gray-light)] bg-[var(--color-bg)] text-[var(--color-jet-black)] focus:outline-none focus:ring-2 focus:ring-[var(--color-teal-gray)] transition-[var(--transition-fast)]"
+        />
+      </div>
+
+      <div>
+        <label class="block text-[var(--color-charcoal)] font-medium mb-1"
+          >Konfirmasi Kata Sandi</label
+        >
+        <input
+          type="password"
+          placeholder="********"
+          class="w-full p-3 rounded-lg border border-[var(--color-gray-light)] bg-[var(--color-bg)] text-[var(--color-jet-black)] focus:outline-none focus:ring-2 focus:ring-[var(--color-teal-gray)] transition-[var(--transition-fast)]"
+        />
+      </div>
+
+      <button
+        type="submit"
+        class="w-full py-3 mt-4 rounded-lg font-semibold text-white shadow-[var(--button-shadow)] bg-[var(--color-charcoal)] hover:bg-[var(--color-steel-blue)] transition-[var(--transition-medium)]"
+      >
+        Daftar Sekarang
+      </button>
+    </form>
+
+    <p class="text-sm text-center text-[var(--color-gray-dark)] mt-6">
+      Sudah punya akun?
+      <a
+        href="#"
+        class="text-[var(--color-steel-blue)] hover:underline font-medium"
+        >Masuk di sini</a
+      >
+    </p>
+  </div>
+</div>
+
+{{ end}}

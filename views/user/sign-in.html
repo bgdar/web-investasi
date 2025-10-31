@@ -1,0 +1,125 @@
+{{ define "user/sign-in.html"}} {{ template "header" . }}
+
+<body class="bg-[var(--color-bg)]">
+  <div
+    class="min-h-screen flex items-center justify-center text-[var(--color-black)]"
+  >
+    <div
+      class="w-full max-w-md bg-white shadow-lg rounded-2xl border border-[var(--color-gray-light)] p-8"
+    >
+      <div class="mb-6 text-center">
+        <h1 class="text-2xl font-semibold text-[var(--color-charcoal)]">
+          Masuk ke InvestasiPro
+        </h1>
+        <p class="text-sm text-[var(--color-gray-dark)] mt-2">
+          Kelola portofolio dan investasi Anda dengan aman
+        </p>
+      </div>
+
+      <div>
+        <form action="#" method="POST" class="space-y-5">
+          <!-- Email -->
+          <div>
+            <label
+              for="email"
+              class="block text-sm font-medium text-[var(--color-charcoal)]"
+              >Email</label
+            >
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              class="mt-1 w-full px-4 py-2 border border-[var(--color-gray-light)] rounded-lg focus:ring-2 focus:ring-[var(color-steel-blue)] focus:outline-none placeholder-[var(--color-gray)]"
+              placeholder="contoh@email.com"
+            />
+          </div>
+
+          <!-- Password -->
+          <div>
+            <label
+              for="password"
+              class="block text-sm font-medium text-[var(--color-charcoal)]"
+              >Kata Sandi</label
+            >
+            <input
+              type="password"
+              id="password"
+              name="password"
+              required
+              class="mt-1 w-full px-4 py-2 border border-[var(--color-gray-light)] rounded-lg focus:ring-2 focus:ring-[var(color-steel-blue)] focus:outline-none placeholder-[var(--color-gray)]"
+              placeholder="••••••••"
+            />
+          </div>
+
+          <!-- Options -->
+          <div
+            class="flex items-center justify-between text-sm text-[var(--color-gray-dark)]"
+          >
+            <label class="flex items-center space-x-2">
+              <input type="checkbox" class="accent-[var(color-steel-blue)]" />
+              <span>Ingat saya</span>
+            </label>
+            <a href="#" class="text-[var(color-steel-blue)] hover:underline"
+              >Lupa kata sandi?</a
+            >
+          </div>
+
+          <!-- Submit -->
+          <button
+            type="submit"
+            class="w-full py-2.5 bg-[var(--color-charcoal)] hover:bg-[var(color-steel-blue)] text-white font-medium rounded-lg transition-colors duration-300"
+          >
+            Masuk
+          </button>
+        </form>
+      </div>
+
+      <!-- Divider -->
+      <div class="my-6 flex items-center">
+        <div class="flex-grow h-px bg-[var(--color-gray-light)]"></div>
+        <span class="px-3 text-sm text-[var(--color-gray-dark)]">atau</span>
+        <div class="flex-grow h-px bg-[var(--color-gray-light)]"></div>
+      </div>
+
+      <!-- Social Buttons -->
+      <div class="space-y-3">
+        <button
+          class="w-full py-2.5 border border-[var(--color-gray-light)] rounded-lg flex items-center justify-center space-x-2 hover:bg-[var(--color-gray-light)] transition-colors"
+        >
+          <img
+            src="https://www.svgrepo.com/show/475656/google-color.svg"
+            class="w-5 h-5"
+            alt=""
+          />
+          <span class="text-[var(--color-black)] font-medium"
+            >Masuk dengan Google</span
+          >
+        </button>
+
+        <button
+          class="w-full py-2.5 border border-[var(--color-gray-light)] rounded-lg flex items-center justify-center space-x-2 hover:bg-[var(--color-gray-light)] transition-colors"
+        >
+          <img
+            src="https://www.svgrepo.com/show/475647/facebook-color.svg"
+            class="w-5 h-5"
+            alt=""
+          />
+          <span class="text-[var(--color-black)] font-medium"
+            >Masuk dengan Facebook</span
+          >
+        </button>
+      </div>
+
+      <!-- Footer -->
+      <div class="mt-8 text-center text-sm text-[var(--color-gray-dark)]">
+        Belum punya akun?
+        <a href="#" class="text-[var(color-steel-blue)] hover:underline"
+          >Daftar sekarang</a
+        >
+      </div>
+    </div>
+  </div>
+</body>
+
+{{ end }}

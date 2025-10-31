@@ -1,0 +1,89 @@
+{{ define "product/product-id.html"}} {{ template "header" . }}
+
+<!-- 🧩 Konten Produk -->
+<main class="flex-grow flex flex-col items-center py-16 px-6">
+  <div
+    class="max-w-5xl w-full bg-white rounded-2xl shadow-md card-hover p-10 flex flex-col md:flex-row gap-10"
+  >
+    <div class="w-full md:w-1/2 flex justify-center items-center">
+      <img
+        src="/images/products/{{ .product_id }}.jpg"
+        alt="{{ .product_name }}"
+        class="rounded-xl shadow-md hover:shadow-lg transition-all duration-300 w-full max-w-sm object-cover"
+      />
+    </div>
+
+    <div class="w-full md:w-1/2 flex flex-col justify-between">
+      <div>
+        <h2 class="text-3xl font-bold mb-2 text-[color:var(--color-charcoal)]">
+          {{ .product_name }}
+        </h2>
+        <p class="text-[color:var(--color-gray-dark)] mb-6">
+          {{ .product_description }}
+        </p>
+
+        <p
+          class="text-2xl font-semibold text-[color:var(--color-steel-blue)] mb-4"
+        >
+          Rp {{ .product_idr }}
+        </p>
+      </div>
+
+      <div class="flex gap-4">
+        <button class="btn-primary px-6 py-3 font-medium">Inves</button>
+        <button
+          class="border border-[color:var(--color-steel-blue)] px-6 py-3 rounded-lg text-[color:var(--color-steel-blue)] hover:bg-[color:var(--color-soft-beige)] transition-all"
+        >
+          Tambah ke Keranjang
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ✨ Rekomendasi -->
+  <section class="max-w-5xl mt-16 w-full">
+    <h3 class="text-xl font-semibold text-[color:var(--color-charcoal)] mb-6">
+      Produk Serupa
+    </h3>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+      <div
+        class="p-4 bg-white rounded-xl shadow-md card-hover flex flex-col items-center"
+      >
+        <img
+          src="/images/products/reco1.jpg"
+          class="w-40 h-40 object-cover rounded-lg mb-3"
+        />
+        <p class="font-semibold text-[color:var(--color-charcoal)]">
+          Robot Alpha
+        </p>
+        <p class="text-[color:var(--color-steel-blue)] text-sm">Rp 3.000.000</p>
+      </div>
+      <div
+        class="p-4 bg-white rounded-xl shadow-md card-hover flex flex-col items-center"
+      >
+        <img
+          src="/images/products/reco2.jpg"
+          class="w-40 h-40 object-cover rounded-lg mb-3"
+        />
+        <p class="font-semibold text-[color:var(--color-charcoal)]">
+          Robot Sigma
+        </p>
+        <p class="text-[color:var(--color-steel-blue)] text-sm">Rp 2.500.000</p>
+      </div>
+      <div
+        class="p-4 bg-white rounded-xl shadow-md card-hover flex flex-col items-center"
+      >
+        <img
+          src="/images/products/reco3.jpg"
+          class="w-40 h-40 object-cover rounded-lg mb-3"
+        />
+        <p class="font-semibold text-[color:var(--color-charcoal)]">
+          Robot Delta
+        </p>
+        <p class="text-[color:var(--color-steel-blue)] text-sm">Rp 2.800.000</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+{{ end }}

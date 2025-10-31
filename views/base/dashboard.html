@@ -1,0 +1,149 @@
+{{ define "base/dashboard.html"}} {{ template "header" . }}
+<div
+  class="min-h-screen flex bg-[var(--color-bg)] text-[var(--color-charcoal)]"
+>
+  {{ template "navbar" }}
+
+  <!-- Main Content -->
+  <div class="flex-1 p-8 overflow-y-auto">
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-8">
+      <div>
+        <h1 class="text-2xl font-semibold text-[var(--color-jet-black)]">
+          Selamat Datang,
+          <span class="text-[var(--color-steel-blue)]">Investor</span>
+        </h1>
+        <p class="text-sm text-[var(--color-gray-dark)]">
+          Pantau portofolio dan investasi Anda hari ini.
+        </p>
+      </div>
+      <button
+        class="px-4 py-2 rounded-lg text-white bg-[var(--color-steel-blue)] hover:bg-[var(--color-teal-gray)] shadow-[var(--shadow-md)] transition-[var(--transition-fast)]"
+      >
+        + Tambah Investasi
+      </button>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div
+        class="p-5 bg-white rounded-xl shadow-[var(--shadow-md)] border border-[var(--color-gray-light)] hover:shadow-[var(--shadow-glow)] transition-[var(--transition-medium)]"
+      >
+        <h3 class="text-sm text-[var(--color-gray-dark)] mb-1">
+          Total Balance
+        </h3>
+        <p class="text-2xl font-semibold text-[var(--color-jet-black)]">
+          Rp 120.500.000
+        </p>
+        <span class="text-[var(--color-success)] text-sm">+3.2% bulan ini</span>
+      </div>
+
+      <div
+        class="p-5 bg-white rounded-xl shadow-[var(--shadow-md)] border border-[var(--color-gray-light)] hover:shadow-[var(--shadow-glow)]"
+      >
+        <h3 class="text-sm text-[var(--color-gray-dark)] mb-1">Total Profit</h3>
+        <p class="text-2xl font-semibold text-[var(--color-jet-black)]">
+          Rp 8.750.000
+        </p>
+        <span class="text-[var(--color-success)] text-sm"
+          >+Rp 1.250.000 minggu ini</span
+        >
+      </div>
+
+      <div
+        class="p-5 bg-white rounded-xl shadow-[var(--shadow-md)] border border-[var(--color-gray-light)] hover:shadow-[var(--shadow-glow)]"
+      >
+        <h3 class="text-sm text-[var(--color-gray-dark)] mb-1">Risk Level</h3>
+        <p class="text-2xl font-semibold text-[var(--color-warning)]">
+          Moderate
+        </p>
+        <span class="text-[var(--color-gray-dark)] text-sm"
+          >Dapat dikendalikan</span
+        >
+      </div>
+    </div>
+
+    <!-- Chart Placeholder -->
+    <div
+      class="bg-white p-6 rounded-xl shadow-[var(--shadow-md)] border border-[var(--color-gray-light)] mb-8"
+    >
+      <h3 class="text-lg font-medium mb-4">Grafik Performa Investasi</h3>
+      <div
+        class="h-48 flex items-center justify-center text-[var(--color-gray)] italic"
+      >
+        <p>
+          📈 Grafik performa investasi akan ditampilkan di sini natik nnatik
+        </p>
+      </div>
+    </div>
+
+    <!-- Transaction Table -->
+    <div
+      class="bg-white p-6 rounded-xl shadow-[var(--shadow-md)] border border-[var(--color-gray-light)]"
+    >
+      <h3 class="text-lg font-medium mb-4">Aktivitas Terbaru</h3>
+      <table class="w-full text-sm text-left border-collapse">
+        <thead
+          class="bg-[var(--color-soft-beige)] text-[var(--color-charcoal)]"
+        >
+          <tr>
+            <th class="px-4 py-2 border-b border-[var(--color-gray-light)]">
+              Tanggal
+            </th>
+            <th class="px-4 py-2 border-b border-[var(--color-gray-light)]">
+              Jenis
+            </th>
+            <th class="px-4 py-2 border-b border-[var(--color-gray-light)]">
+              Jumlah
+            </th>
+            <th class="px-4 py-2 border-b border-[var(--color-gray-light)]">
+              Status
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            class="hover:bg-[var(--color-soft-beige)] transition-[var(--transition-fast)]"
+          >
+            <td class="px-4 py-2 border-b border-[var(--color-gray-light)]">
+              27 Okt 2025
+            </td>
+            <td class="px-4 py-2 border-b border-[var(--color-gray-light)]">
+              Deposit
+            </td>
+            <td
+              class="px-4 py-2 border-b border-[var(--color-gray-light)] text-[var(--color-success)]"
+            >
+              +Rp 5.000.000
+            </td>
+            <td
+              class="px-4 py-2 border-b border-[var(--color-gray-light)] text-[var(--color-info)]"
+            >
+              Berhasil
+            </td>
+          </tr>
+          <tr class="hover:bg-[var(--color-soft-beige)]">
+            <td class="px-4 py-2 border-b border-[var(--color-gray-light)]">
+              25 Okt 2025
+            </td>
+            <td class="px-4 py-2 border-b border-[var(--color-gray-light)]">
+              Penarikan
+            </td>
+            <td
+              class="px-4 py-2 border-b border-[var(--color-gray-light)] text-[var(--color-error)]"
+            >
+              -Rp 2.000.000
+            </td>
+            <td
+              class="px-4 py-2 border-b border-[var(--color-gray-light)] text-[var(--color-warning)]"
+            >
+              Menunggu
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{{ end }}
