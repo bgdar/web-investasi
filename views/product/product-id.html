@@ -1,6 +1,5 @@
 {{ define "product/product-id.html"}} {{ template "header" . }}
 
-<!-- 🧩 Konten Produk -->
 <main class="flex-grow flex flex-col items-center py-16 px-6">
   <div
     class="max-w-5xl w-full bg-white rounded-2xl shadow-md card-hover p-10 flex flex-col md:flex-row gap-10"
@@ -13,7 +12,10 @@
       />
     </div>
 
-    <div class="w-full md:w-1/2 flex flex-col justify-between">
+    <div
+      id="container-product"
+      class="w-full md:w-1/2 flex flex-col justify-between"
+    >
       <div>
         <h2 class="text-3xl font-bold mb-2 text-[color:var(--color-charcoal)]">
           {{ .product_name }}
@@ -25,22 +27,24 @@
         <p
           class="text-2xl font-semibold text-[color:var(--color-steel-blue)] mb-4"
         >
-          Rp {{ .product_idr }}
+          Rp {{ printf "%.0f" .product_idr }}
         </p>
+        <div>
+          <input type="number" name="total_product" id="total_product" />
+        </div>
       </div>
 
       <div class="flex gap-4">
-        <button class="btn-primary px-6 py-3 font-medium">Inves</button>
         <button
+          id="invest"
           class="border border-[color:var(--color-steel-blue)] px-6 py-3 rounded-lg text-[color:var(--color-steel-blue)] hover:bg-[color:var(--color-soft-beige)] transition-all"
         >
-          Tambah ke Keranjang
+          invest
         </button>
       </div>
     </div>
   </div>
 
-  <!-- ✨ Rekomendasi -->
   <section class="max-w-5xl mt-16 w-full">
     <h3 class="text-xl font-semibold text-[color:var(--color-charcoal)] mb-6">
       Produk Serupa
@@ -85,5 +89,65 @@
     </div>
   </section>
 </main>
+
+<!-- MODAL CONFIRM start-->
+<div
+  id="confirmModal"
+  class="fixed inset-0 z-50 hidden"
+  aria-hidden="true"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="confirmTitle"
+>
+  <!-- overlay -->
+  <div
+    id="modalOverlay"
+    class="absolute inset-0 bg-black/50 transition-opacity"
+  ></div>
+
+  <!-- modal panel wrapper -->
+  <div class="fixed inset-0 flex items-center justify-center p-4">
+    <div class="max-w-lg w-full mx-auto transform transition-all">
+      <div
+        class="bg-white rounded-2xl shadow-xl ring-1 ring-black/5 overflow-hidden"
+      >
+        <!-- header -->
+        <div class="px-6 py-4 border-b">
+          <h3 id="confirmTitle" class="text-lg font-semibold text-gray-900">
+            Apakah kamu yakin?
+          </h3>
+        </div>
+
+        <!-- body -->
+        <div class="px-6 py-4">
+          <p id="confirmMessage" class="text-sm text-gray-600">
+            Tindakan ini akan memulai proses investasi. Pastikan data sudah
+            benar. Lanjutkan?
+          </p>
+        </div>
+
+        <!-- footer / actions -->
+        <div id="action" class="px-6 py-4 bg-gray-50 flex justify-end gap-3">
+          <button
+            id="cancelBtn"
+            type="button"
+            class="px-4 py-2 rounded-md bg-white border text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-300"
+          >
+            Batal
+          </button>
+
+          <button
+            id="confirmBtn"
+            type="button"
+            class="px-4 py-2 rounded-md bg-indigo-600 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-300"
+          >
+            Ya, mulai
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="/static/js/product/product-id.js" defer></script>
 
 {{ end }}

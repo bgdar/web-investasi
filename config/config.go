@@ -23,7 +23,6 @@ func ConnectDatabase()  {
 	db , err := sql.Open("postgres",psqlInfo)
 	if err != nil  {
 		log.Fatalln("[x] gagal membuka koneksi ke database :", err)
-		
 	}
 	// uji koneksi 
 	err = db.Ping(); if err != nil {

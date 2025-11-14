@@ -10,27 +10,35 @@
 
 **Back**
 
-- `GIn` : web framework dari golang
+- `GIN` : web framework dari golang
   **Front**
 - `Tailwindcss` : untuk style CSS
-- `pq` : conector untuk koneksi ke database PogressSql 
-> cek configurasi di /config/config.go
+- `fontawesome` : font yang di guanakan di web ini
+- `pq` : conector untuk koneksi ke database PogressSql
+- `jwt` : untuk Login user mengguanakn Json web Token
+  client : menggunaakn Cookies
+  > cek configurasi database di /config/config.go
 
-### Controller 
-- base.go : untuk menampilkan atau tampilan utama aplikasi 
-    1. dashboard
-    2. block atau about 
-- product.go : api untuk trasaksi product,product nya : 
-    . `robot` :
-- transaksi  : untuk halaman trasaksi terjadi atau seperti payment gateway
+### Controller
 
-### seeder 
-rencanyan untuk data awal yang akan di isi atau structure dari APP 
+- base.go : untuk menampilkan atau tampilan utama aplikasi
+  1. dashboard
+  2. block atau about
+- product.go : api untuk trasaksi product,product nya :
+  . `robot` :
+- transaksi : untuk halaman trasaksi terjadi atau seperti payment gateway
+
+### seeder
+
+rencanyan untuk data awal yang akan di isi atau structure dari APP
+
 > untuk awal pengembangan atau deployment
-- `table` : table table yang akan di generate  di awal
+
+- `table` : table table yang akan di generate di awal
 
 ### Views
-- /Component/ : berisi component component yang akan di gunakan di setiap VIEWS 
+
+- /Component/ : berisi component component yang akan di gunakan di setiap VIEWS
 
 pada **Views** ada folder **Componet** di sini menyimpan component yang bsai di gunakan di views
 
@@ -72,3 +80,15 @@ example penggunana
 | Notifikasi error | `#EF4444` |
 | Notifikasi warning | `#FACC15` |
 | Notifikasi info | `#3B82F6` |
+
+### database
+
+![Structure table database]("./structure table.png")
+<br>
+Akses database PogressSql
+
+```bash
+# linux  ( dengan user default postgres )
+psql -U postgres -W
+
+```

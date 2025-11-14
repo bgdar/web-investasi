@@ -1,0 +1,42 @@
+{{ define "product/product-user.html"}} {{ template "header" . }}
+
+{{ template "navbar" }}
+
+<main
+    class="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4 pb-16"
+  >
+    {{ if .user_product }} {{ range $i , $value := .products }}
+
+    <div
+      class="bg-white border border-[var(--color-gainsboro)] rounded-2xl overflow-hidden shadow-[var(--shadow-md)] hover:shadow-[var(--shadow-lg)] transition-[var(--transition-medium)]"
+    >
+      <div class="relative">
+        <img
+          src=""
+          alt="AstraBot X1"
+          class="w-full h-48 object-cover"
+        />
+           </div>
+      <div class="p-4">
+        <h2 class="text-lg font-semibold text-[var(--color-jet-black)]">
+          {{ $value.Name }}
+        </h2>
+        <p class="text-sm text-[var(--color-gray-dark)] mt-1">
+          {{ $value.TotalProduct }}
+        </p>
+        <div
+          class="flex justify-between items-center mt-4 text-sm text-[var(--color-gray)]"
+        >
+          <span>{{ $value.DailyReward }}</span>
+       
+        </div>
+      </div>
+    </div>
+    {{ end }} {{ else }}
+    <div>
+      <p> no Product for user</p>
+    </div>
+    {{ end }}
+  </main>
+
+{{ end }}

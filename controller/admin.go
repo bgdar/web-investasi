@@ -9,6 +9,8 @@ import (
 /// route utaman halaman adamin
 func Admin(ctx *gin.Context)  {
 
-	ctx.HTML(http.StatusOK,"admin/admin.html",nil)
+	ctx.HTML(http.StatusOK,"admin/admin.html",gin.H{
+		"title":"admin",
+	})
 	
 }

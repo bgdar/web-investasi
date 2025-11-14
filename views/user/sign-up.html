@@ -13,13 +13,14 @@
       Daftar untuk mulai berinvestasi dengan aman dan mudah
     </p>
 
-    <form class="space-y-4">
+    <form class="space-y-4" action="/user/sign-up" method="post">
       <div>
         <label class="block text-[var(--color-charcoal)] font-medium mb-1"
-          >Nama Lengkap</label
+          >Username</label
         >
         <input
           type="text"
+          name="username"
           placeholder="John Doe"
           class="w-full p-3 rounded-lg border border-[var(--color-gray-light)] bg-[var(--color-bg)] text-[var(--color-jet-black)] focus:outline-none focus:ring-2 focus:ring-[var(--color-steel-blue)] focus:border-transparent transition-[var(--transition-fast)]"
         />
@@ -31,6 +32,7 @@
         >
         <input
           type="email"
+          name="email"
           placeholder="contoh@email.com"
           class="w-full p-3 rounded-lg border border-[var(--color-gray-light)] bg-[var(--color-bg)] text-[var(--color-jet-black)] focus:outline-none focus:ring-2 focus:ring-[var(--color-steel-blue)] transition-[var(--transition-fast)]"
         />
@@ -38,10 +40,11 @@
 
       <div>
         <label class="block text-[var(--color-charcoal)] font-medium mb-1"
-          >Kata Sandi</label
+          >kata sandi</label
         >
         <input
           type="password"
+          name="password"
           placeholder="********"
           class="w-full p-3 rounded-lg border border-[var(--color-gray-light)] bg-[var(--color-bg)] text-[var(--color-jet-black)] focus:outline-none focus:ring-2 focus:ring-[var(--color-teal-gray)] transition-[var(--transition-fast)]"
         />

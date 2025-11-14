@@ -1,132 +1,76 @@
 {{ define "product/product.html"}} {{ template "header" . }}
- <body class="bg-[var(--color-bg)] text-[var(--color-jet-black)]">
-    <!-- Header -->
-    <header class="max-w-4xl mx-auto text-center py-10">
-      <h1 class="text-3xl font-semibold text-[var(--color-charcoal)] mb-2">
-        🤖 Daftar Robot Investasi
-      </h1>
-      <p class="text-[var(--color-gray-dark)]">
-        Pilih robot investasi yang ingin kamu danai, pantau performanya, dan
-        tukarkan hasilnya sesuai waktu yang ditentukan.
-      </p>
-    </header>
 
-    <!-- Feed Produk -->
-    <main
-      class="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4 pb-16"
+<div class="bg-[var(--color-bg)] flex gap-2  text-[var(--color-jet-black)]">
+
+{{ template "navbar" }}
+  <div class=" mx-auto text-center max-w-4xl">
+  <header class="py-10">
+    <h1 class="text-3xl font-semibold text-[var(--color-charcoal)] mb-2">
+      Daftar Robot Investasi
+    </h1>
+    <p class="text-[var(--color-gray-dark)]">
+      Pilih robot investasi yang ingin kamu danai, pantau performanya, dan
+      tukarkan hasilnya sesuai waktu yang ditentukan.
+    </p>
+  </header>
+
+  <!-- Feed Produk -->
+  <main
+    class="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4 pb-16"
+  >
+    {{ if .products }} {{ range $i , $value := .products }}
+
+    <div
+      class="bg-white border border-[var(--color-gainsboro)] rounded-2xl overflow-hidden shadow-[var(--shadow-md)] hover:shadow-[var(--shadow-lg)] transition-[var(--transition-medium)]"
     >
-      <!-- Card 1 -->
-      <div
-        class="bg-white border border-[var(--color-gainsboro)] rounded-2xl overflow-hidden shadow-[var(--shadow-md)] hover:shadow-[var(--shadow-lg)] transition-[var(--transition-medium)]"
-      >
-        <div class="relative">
-          <img
-            src="https://images.unsplash.com/photo-1581090700227-1e37b190418e?auto=format&fit=crop&w=600&q=60"
-            alt="AstraBot X1"
-            class="w-full h-48 object-cover"
-          />
-          <span
-            class="absolute top-2 right-2 bg-[var(--color-steel-blue)] text-white text-xs px-3 py-1 rounded-full shadow-[var(--shadow-soft)]"
-          >
-            1,200 USD
-          </span>
-        </div>
-        <div class="p-4">
-          <h2 class="text-lg font-semibold text-[var(--color-jet-black)]">
-            AstraBot X1
-          </h2>
-          <p class="text-sm text-[var(--color-gray-dark)] mt-1">
-            Robot generasi terbaru dengan kemampuan analisis pasar otomatis
-            berbasis AI.
-          </p>
-          <div
-            class="flex justify-between items-center mt-4 text-sm text-[var(--color-gray)]"
-          >
-            <span>128 investor</span>
+      <div class="relative">
+        <img
+          src="{{ $value.Source }}"
+          alt="AstraBot X1"
+          class="w-full h-48 object-cover"
+        />
+        <span
+          class="absolute top-2 right-2 bg-[var(--color-steel-blue)] text-white text-xs px-3 py-1 rounded-full shadow-[var(--shadow-soft)]"
+        >
+{{ printf "%.0f" $value.IDR }}
+        </span>
+      </div>
+      <div class="p-4">
+        <h2 class="text-lg font-semibold text-[var(--color-jet-black)]">
+          {{ $value.Name }}
+        </h2>
+        <p class="text-sm text-[var(--color-gray-dark)] mt-1">
+          {{ $value.Description }}
+        </p>
+        <div
+          class="flex justify-between items-center mt-4 text-sm text-[var(--color-gray)]"
+        >
+          <span>{{ $value.Status }}</span>
+          <!-- gabung path saat ini dengan id selanjutnay  | rencana selanjutnya adalah hashing id ini | curent_path sudah ada /.../-->
+            <a href="{{ $.curent_path }}{{ $value.ID }}">
             <button
               class="bg-[var(--color-charcoal)] hover:bg-[var(--color-steel-blue)] text-white px-3 py-1 rounded-lg transition-[var(--transition-fast)] shadow-[var(--shadow-soft)]"
             >
               Investasi
             </button>
-          </div>
+          </a>
         </div>
       </div>
+    </div>
+    {{ end }} {{ else }}
+    <div>
+      <p> Product Empty </p>
+    </div>
+    {{ end }}
+  </main>
 
-      <!-- Card 2 -->
-      <div
-        class="bg-white border border-[var(--color-gainsboro)] rounded-2xl overflow-hidden shadow-[var(--shadow-md)] hover:shadow-[var(--shadow-lg)] transition-[var(--transition-medium)]"
-      >
-        <div class="relative">
-          <img
-            src="https://images.unsplash.com/photo-1581091215367-59ab6a9a59b0?auto=format&fit=crop&w=600&q=60"
-            alt="NeuraBot S2"
-            class="w-full h-48 object-cover"
-          />
-          <span
-            class="absolute top-2 right-2 bg-[var(--color-steel-blue)] text-white text-xs px-3 py-1 rounded-full shadow-[var(--shadow-soft)]"
-          >
-            950 USD
-          </span>
-        </div>
-        <div class="p-4">
-          <h2 class="text-lg font-semibold text-[var(--color-jet-black)]">
-            NeuraBot S2
-          </h2>
-          <p class="text-sm text-[var(--color-gray-dark)] mt-1">
-            Menggunakan jaringan saraf tiruan untuk prediksi nilai aset digital.
-          </p>
-          <div
-            class="flex justify-between items-center mt-4 text-sm text-[var(--color-gray)]"
-          >
-            <span>214 investor</span>
-            <button
-              class="bg-[var(--color-charcoal)] hover:bg-[var(--color-steel-blue)] text-white px-3 py-1 rounded-lg transition-[var(--transition-fast)] shadow-[var(--shadow-soft)]"
-            >
-              Investasi
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Card 3 -->
-      <div
-        class="bg-white border border-[var(--color-gainsboro)] rounded-2xl overflow-hidden shadow-[var(--shadow-md)] hover:shadow-[var(--shadow-lg)] transition-[var(--transition-medium)]"
-      >
-        <div class="relative">
-          <img
-            src="https://images.unsplash.com/photo-1569428034239-4ec1f375f2b4?auto=format&fit=crop&w=600&q=60"
-            alt="Optima R3"
-            class="w-full h-48 object-cover"
-          />
-          <span
-            class="absolute top-2 right-2 bg-[var(--color-steel-blue)] text-white text-xs px-3 py-1 rounded-full shadow-[var(--shadow-soft)]"
-          >
-            1,450 USD
-          </span>
-        </div>
-        <div class="p-4">
-          <h2 class="text-lg font-semibold text-[var(--color-jet-black)]">
-            Optima R3
-          </h2>
-          <p class="text-sm text-[var(--color-gray-dark)] mt-1">
-            Didesain untuk efisiensi energi dan stabilitas performa tinggi.
-          </p>
-          <div
-            class="flex justify-between items-center mt-4 text-sm text-[var(--color-gray)]"
-          >
-            <span>178 investor</span>
-            <button
-              class="bg-[var(--color-charcoal)] hover:bg-[var(--color-steel-blue)] text-white px-3 py-1 rounded-lg transition-[var(--transition-fast)] shadow-[var(--shadow-soft)]"
-            >
-              Investasi
-            </button>
-          </div>
-        </div>
-      </div>
-    </main>
-
-    <footer class="max-w-4xl mx-auto text-center pb-10 text-[var(--color-gray-dark)]">
-      🌟 Semakin cepat kamu berinvestasi, semakin besar potensi keuntungan yang bisa kamu capai.
-    </footer>
-
+    <p>curent_path : {{ .curent_path }}</p>
+  <footer
+    class="max-w-4xl mx-auto text-center pb-10 text-[var(--color-gray-dark)]"
+  >
+    🌟 Semakin cepat kamu berinvestasi, semakin besar potensi keuntungan yang
+    bisa kamu capai.
+  </footer>
+  </div>
+</div>
 {{ end }}

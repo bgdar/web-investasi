@@ -7,15 +7,15 @@ import (
 )
 
 // json agar bentuk format jsonya agar tidak mengikuti default bawan golang
-type User struct { // struct ini utnuk desain colom di DB nya 
-	ID int64 `json:"id"`
-	Name string `json:"name"`
-	Email string `json:"email"`
+type User struct { // struct ini utnuk desain colom di DB nya
+	ID       int64  `json:"id"`
+	Name     string `json:"name"`
+	Email    string `json:"email"`
 	Password string `json:"password"`
+	Saldo    string `json:"saldo"`
 }
 
-
-func AddUser(name, password, email string) {
+func AddUser(name, password, email string) error {
 	// Buat struct user
 	input := User{
 		Name:     name,
@@ -30,9 +30,56 @@ func AddUser(name, password, email string) {
 	err := config.DB.QueryRow(query, input.Name, input.Password, input.Email).Scan(&input.ID)
 	if err != nil {
 		log.Println("[x] Gagal menambah user baru:", err)
-		return
+		return nil
+	}
+	return nil
+}
+
+// / hapus user
+func DelUser(id uint64) {
+
+	query := "DELETE FROM user WHERE id = $1"
+	_, err := config.DB.Exec(query, id)
+	if err != nil {
+		log.Printf("[x] gagal mendelete user dengan id %d", id)
 	}
 
+}
+
+func GetUserByName(name string) (*User, error) {
+	query := "SELECT  id , name , password , email FROM users WHERE name = $1"
+
+	row := config.DB.QueryRow(query, name)
+	var user User
+	err := row.Scan(&user.ID, &user.Name, &user.Password, &user.Email)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			log.Printf("[!] User dengan Name %s tidak ditemukan\n", name)
+			return nil, nil
+		}
+		log.Printf("[x] Gagal mengambil user dengan ID %s: %v\n", name, err)
+		return nil, err
+	}
+	return &user, nil
+
+}
+
+// cek user apakah ada di table
+func IsUserExists(name string, password string) (bool, error) {
+	query := `
+        SELECT EXISTS(
+            SELECT 1 
+            FROM users 
+            WHERE name = $1 AND password = $2
+        )
+    `
+	var exists bool
+	err := config.DB.QueryRow(query, name, password).Scan(&exists)
+	if err != nil {
+		return false, err
+	}
+
+	return exists, nil
 }
 
 func GetUserByID(id int64) (*User, error) {
@@ -52,5 +99,3 @@ func GetUserByID(id int64) (*User, error) {
 	}
 	return &user, nil
 }
-
-
