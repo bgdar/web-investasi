@@ -2,7 +2,9 @@ package model
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
+	"regexp"
 	"web-investasi/config"
 )
 
@@ -63,6 +65,23 @@ func GetUserByName(name string) (*User, error) {
 	return &user, nil
 
 }
+func GetUserByID(id int64) (*User, error) {
+	query := "SELECT id, name, password, email FROM users WHERE id = $1"
+
+	row := config.DB.QueryRow(query, id)
+
+	var user User
+	err := row.Scan(&user.ID, &user.Name, &user.Password, &user.Email)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			log.Printf("[!] User dengan ID %d tidak ditemukan\n", id)
+			return nil, nil
+		}
+		log.Printf("[x] Gagal mengambil user dengan ID %d: %v\n", id, err)
+		return nil, err
+	}
+	return &user, nil
+}
 
 // cek user apakah ada di table
 func IsUserExists(name string, password string) (bool, error) {
@@ -82,20 +101,23 @@ func IsUserExists(name string, password string) (bool, error) {
 	return exists, nil
 }
 
-func GetUserByID(id int64) (*User, error) {
-	query := "SELECT id, name, password, email FROM users WHERE id = $1"
+// / ambil 1 data denagn katagory data apapun di table
+// / T = type  yang akan di cari
+func GetOneDataUser[T any](field string, value any) (T, error) {
+	var result T
 
-	row := config.DB.QueryRow(query, id)
-
-	var user User
-	err := row.Scan(&user.ID, &user.Name, &user.Password, &user.Email)
-	if err != nil {
-		if err == sql.ErrNoRows {
-			log.Printf("[!] User dengan ID %d tidak ditemukan\n", id)
-			return nil, nil
-		}
-		log.Printf("[x] Gagal mengambil user dengan ID %d: %v\n", id, err)
-		return nil, err
+	// sanitize: hanya boleh huruf/underscore
+	valid := regexp.MustCompile(`^[a-zA-Z_]+$`)
+	if !valid.MatchString(field) {
+		return result, fmt.Errorf("invalid column name")
 	}
-	return &user, nil
+
+	query := fmt.Sprintf("SELECT %s FROM users WHERE %s = $1 LIMIT 1", field, field)
+
+	err := config.DB.QueryRow(query, value).Scan(&result)
+	if err != nil {
+		return result, err
+	}
+
+	return result, nil
 }

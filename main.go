@@ -33,26 +33,34 @@ func main() {
 	}
 
 	product_route := route.Group("/product")
-	product_route.Use(middleware.UserLoggin(jwtKey))
+	product_route.Use(middleware.UserLoggin(jwtKey)) // UserLogginsemua menggunaakn middleware
 	{
-		product_route.GET("/", controller.Product)
-		product_route.GET("/:id", controller.ProductGet) // kirim id
-		product_route.POST("/product-user", controller.ProductAddForUser)
-		product_route.GET("/product-user", controller.ProductForUser)
+		product_route.GET("/", controller.ProductGet)
+		product_route.GET("/:id", controller.ProductIdGet) // kirim id
+		product_route.GET("/product-user", controller.ProductForUserGet)
+		product_route.POST("/product-user", controller.ProductForUserPost)
 	}
 
 	user_route := route.Group("/user")
 	{
-		user_route.GET("/", middleware.UserLoggin(jwtKey), controller.Profile)
-		user_route.GET("/sign-in", controller.SignInPage)
-		user_route.POST("/sign-in", controller.SignIpPost(jwtKey))
-		user_route.GET("/sign-up", controller.SignUpPage)
-		user_route.POST("/sign-up", controller.SignUpPost)
+		user_route.GET("/", middleware.UserLoggin(jwtKey), controller.UserHome)
+		user_route.GET("/profile", middleware.UserLoggin(jwtKey), controller.UserProfile)
+
+		user_route.GET("/sign-in", controller.UserSignInPage)
+		user_route.POST("/sign-in", controller.UserSignIpPost(jwtKey))
+		user_route.GET("/sign-up", controller.UserSignUpPage)
+		user_route.POST("/sign-up", controller.UserSignUpPost)
 	}
 
 	admin_route := route.Group("/admin")
 	{
-		admin_route.GET("/", controller.Admin)
+		admin_route.GET("/", middleware.AdminLoggin(jwtKey), controller.AdminHome)
+		admin_route.GET("/profile", middleware.AdminLoggin(jwtKey), controller.AdminProfile)
+
+		admin_route.GET("/sign-in", controller.AdminSignInPage)
+		admin_route.POST("/sign-in", controller.AdminSignInPost(jwtKey))
+		admin_route.GET("/sign-up", controller.AdminSignUpPage)
+		admin_route.POST("/sign-up", controller.AdminSignUpPost)
 	}
 
 	// jalana loalhost:5002

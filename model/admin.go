@@ -30,3 +30,23 @@ func AddAdmin(name string, password string, email string) {
 		return
 	}
 }
+
+
+/// cek apakah suatu admin ada di table
+func IsAdminExist(name string , password string ) (bool , error) {
+
+	query := ` SELECT EXISTS(
+            SELECT 1 
+            FROM admin 
+            WHERE name = $1 AND password = $2
+        )
+	`
+	var exists bool
+		err := config.DB.QueryRow(query, name, password).Scan(&exists)
+	if err != nil {
+		return false, err
+	}
+
+	return exists, nil
+
+}

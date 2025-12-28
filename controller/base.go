@@ -9,9 +9,7 @@ import (
 // / halaman utaman app
 func Dashboard(context *gin.Context) {
 
-	context.HTML(http.StatusOK, "base/dashboard.html", gin.H{
-		"title": "dashboard",
-	})
+	context.HTML(http.StatusOK, "base/dashboard.html",nil)
 }
 
 // / handle untuk about atau block aplikasi

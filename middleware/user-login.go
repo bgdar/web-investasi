@@ -27,7 +27,7 @@ func UserLoggin(jwtKey []byte) gin.HandlerFunc {
 		// 	tokenString = tokenString[7:] // ambil setelah "Bearer
 		// }
 
-		tokenString, err := ctx.Cookie("token")
+		tokenString, err := ctx.Cookie("user-token")
 
 		if err != nil {
 			ctx.Redirect(http.StatusFound, "/user/sign-in")

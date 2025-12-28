@@ -29,6 +29,8 @@ func StartCreateTable() {
 		email VARCHAR(255),
 		role VARCHAR(50) DEFAULT 'superadmin'
 		);`,
+
+		// table di mana admin mempromosikan products nya
 		"products": `CREATE TABLE IF NOT EXISTS products (
 		id SERIAL PRIMARY KEY,              -- ID unik auto-increment
 		name VARCHAR(100) NOT NULL,         -- Nama produk
@@ -40,6 +42,26 @@ func StartCreateTable() {
 		updated_at TIMESTAMP DEFAULT NOW()  -- Tanggal terakhir diubah
 		);
 		`,
+		// table di mana user sudah berinvestaso , maka data nya ke simpan di table ini
+		"product": `
+			CREATE TABLE IF NOT EXISTS product_%s (
+		id SERIAL PRIMARY KEY,
+		name VARCHAR(100) NOT NULL,
+		total_product INT DEFAULT 1,
+		expired TIMESTAMPTZ NOT NULL DEFAULT NOW(), -- batas akhir products
+		daily_reward TIME DEFAULT '12:00:00',  -- defautl Waktu kapan bisa di ambil reward ( defaul jam 12.00)
+		created_at TIMESTAMPTZ DEFAULT NOW(),
+		updated_at TIMESTAMPTZ DEFAULT NOW(),
+
+		user_id INT NOT NULL,   -- gak boleh kosong 
+		
+		product_id INT NOT NULL,
+		
+
+		CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE, -- reference ke table user berdasarkan nama
+		CONSTRAINT fk_product FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE  -- reference ke Id product yang di pilh
+
+	);`,
 	}
 
 	for name, query := range tableQuery {

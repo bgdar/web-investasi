@@ -12,7 +12,7 @@ import (
 )
 
 // / tampilkan sebagai halaman utama apliaksi
-func Product(cxt *gin.Context) {
+func ProductGet(cxt *gin.Context) {
 
 	var products, err = model.GetAllProdct()
 	if err != nil {
@@ -26,7 +26,7 @@ func Product(cxt *gin.Context) {
 }
 
 // / function untuk mengupdate product yang di pilih user
-func ProductGet(ctx *gin.Context) {
+func ProductIdGet(ctx *gin.Context) {
 	id := ctx.Param("id")
 	idconver, _ := strconv.ParseInt(id, 10, 64)
 	product, err := model.GetProductByID(idconver)
@@ -43,11 +43,36 @@ func ProductGet(ctx *gin.Context) {
 		"product_idr":         product.IDR,
 		"product_description": product.Description,
 	})
+}
+
+func ProductForUserGet(ctx *gin.Context) {
+
+	table_name, err := ctx.Cookie("user")
+	if err != nil {
+		log.Println("[x] gagal medapatkan nama user")
+		return
+	}
+
+	userProduct, err := model.GetAllProductForUser(table_name)
+	if err != nil {
+		log.Println("[x] gagal mendapatka product untuk user")
+		ctx.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	ctx.HTML(http.StatusOK, "product/product-user.html", gin.H{
+		"user_product": userProduct,
+	})
 
 }
 
 // / update product untuk usernya
-func ProductAddForUser(ctx *gin.Context) {
+func ProductForUserPost(ctx *gin.Context) {
+
+	var username, errName = ctx.Cookie("username")
+	if errName != nil {
+
+		log.Println("gagal mendapatkan username")
+	}
 
 	type DataType struct {
 		Name         string `json:"name"`
@@ -71,24 +96,5 @@ func ProductAddForUser(ctx *gin.Context) {
 	}
 
 	// simpan ke table product user
-	model.AddProductForUser(fmt.Sprintf("table_%s", user), data.Name, data.TotalProduct, time.Now())
-}
-
-func ProductForUser(ctx *gin.Context) {
-
-	table_name, err := ctx.Cookie("user")
-	if err != nil {
-		log.Println("[x] gagal medapatkan nama user")
-		return
-	}
-
-	userProduct, err := model.GetAllProductForUser(table_name)
-	if err != nil {
-		log.Panicln("[x] gagal mendapatka product untuk user")
-		return
-	}
-	ctx.HTML(http.StatusOK, "product/product-user.html", gin.H{
-		"user_product": userProduct,
-	})
-
+	model.AddProductForUser(fmt.Sprintf("table_%s", user), data.Name, data.TotalProduct, time.Now(), username)
 }

@@ -1,4 +1,4 @@
-{{ define "user/sign-in.html"}} {{ template "header" . }}
+{{ define "admin/sign-in.html"}} {{ template "header" . }}
 
 <body class="bg-[var(--color-bg)]">
   <div
@@ -17,7 +17,7 @@
       </div>
 
       <div>
-        <form action="/user/sign-in" method="POST" class="space-y-5">
+        <form action="/admin/sign-in" method="POST" class="space-y-5">
           <!-- nama       -->
           <div>
             <label
@@ -74,6 +74,7 @@
           </button>
         </form>
       </div>
+
       <!-- Divider -->
       <div class="my-6 flex items-center">
         <div class="flex-grow h-px bg-[var(--color-gray-light)]"></div>
@@ -113,7 +114,9 @@
       <!-- Footer -->
       <div class="mt-8 text-center text-sm text-[var(--color-gray-dark)]">
         Belum punya akun?
-        <a href="/user/sign-up" class="text-[var(color-steel-blue)] hover:underline"
+        <a
+          href="admin/sign-up"
+          class="text-[var(color-steel-blue)] hover:underline"
           >Daftar sekarang</a
         >
       </div>
@@ -124,3 +127,4 @@
   </script>
 
   {{ end }}
+</body>

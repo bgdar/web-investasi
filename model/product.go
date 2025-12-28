@@ -1,97 +1,123 @@
 package model
 
+// MODEL UNTUK handle product product berdsarkan nam user
 import (
 	"database/sql"
+	"fmt"
 	"log"
+	"regexp"
 	"time"
 	"web-investasi/config"
 )
 
-// format table Product
 type Product struct {
-	ID          int64          `json:"id"`
-	Name        string         `json:"name"`
-	IDR         float32        `json:"idr"`
-	Source      sql.NullString `json:"source"` // tipe yang memperbolehkan null
-	Description sql.NullString `json:"description"`
-	Status      string         `json:"status"`
-	CreatedAt   time.Time      `json:"Created_at"`
-	UpdatedAt   time.Time      `json:"updated_at"`
+	ID int64 `json:"id"` // type lain untuk db : `db:"id" json:"id"`
+
+	UserID int64 `db:"user_id" json:"user_id"`
+
+	ProductID int64 `db:"product_id" json:"product_id"`
+
+	Name         string       `json:"name"`
+	TotalProduct int16        `json:"total_product"`
+	Expired      time.Time    `json:"expired"`
+	DailyReward  sql.NullTime `json:"daily_reward"`
+	CreatedAt    time.Time    `json:"Created_at"`
+	UpdatedAt    time.Time    `json:"updated_at"`
 }
 
-// / tambah product
-func AddProduct(name string, idr float32, source string, description string) {
-	input := Product{
-		IDR:  idr,
-		Name: name,
-		Source: sql.NullString{ // handle untuk string sqlnull
-			String: name,
-			Valid:  name != "",
-		},
-		Description: sql.NullString{
-			String: description,
-			Valid:  description != "",
-		},
-	}
-	query := `INSERT INTO  products (name, idr,source,description )
-VALUES ( $1 , $2 , $3 , $4);`
-	err := config.DB.QueryRow(query, input.Name, input.IDR, input.Source, input.Description)
+// / daily_reward : dapatkan jika tidak ada maka 24jam
+
+func AddProduct(nameProduct string, totalProduct int16, dailyReward time.Time, username string) {
+	// Dapatkan product_id
+	productID, err := GetOneDataProducts[int64]("id", nameProduct)
 	if err != nil {
-		log.Println("[x] gagal menambah data product :", err)
+		log.Println("[x](AddProductForUser) gagal mendapat product_id untuk:", nameProduct, err)
 		return
 	}
+	// Dapatkan user_id
+	userID, err := GetOneDataUser[int64]("id", username)
+	if err != nil {
+		log.Println("[x](AddProductForUser) gagal mendapat user_id untuk:", username, err)
+		return
+	}
+
+	// // sanitize table name
+	// reg := regexp.MustCompile(`[^a-zA-Z0-9_]+`)
+	// cleanTable := reg.ReplaceAllString(tableName, "")
+
+	// jika daily_reward = zero, set default 24 jam
+	if dailyReward.IsZero() {
+		dailyReward = time.Now().Add(24 * time.Hour)
+	}
+
+	input := Product{
+		Name:         nameProduct,
+		TotalProduct: totalProduct,
+		DailyReward: sql.NullTime{
+			Time:  dailyReward,
+			Valid: true,
+		},
+		ProductID: productID,
+		UserID:    userID,
+		Expired:   time.Now().Add(24 * time.Hour), // default 24 jam
+	}
+
+	query := `
+	INSERT INTO %s (name, total_product, expired, daily_reward, user_id, product_id)
+	VALUES ($1, $2, $3, $4, $5, $6); product`
+
+	_, err = config.DB.Exec(query,
+		input.Name,
+		input.TotalProduct,
+		input.Expired,
+		input.DailyReward,
+		input.UserID,
+		input.ProductID,
+	)
+
+	if err != nil {
+		log.Printf("[x] (AddProductForUser) gagal menambah tabel ID %d, error: %v", productID, err)
+		return
+	}
+
+	log.Println("[✓] berhasil menambah product untuk user:", username)
 }
 
-// / dapatkan semua data product
-// / return array of Product
-func GetAllProdct() ([]Product, error) {
-	var products []Product
+// / !! gunakan jika memang user menghapus Accont
+func DropProduct(table_name string) bool {
+	query := fmt.Sprintf("DROP TABLE %s", table_name)
+	_, err := config.DB.Exec(query)
+	if err != nil {
+		return false
+	}
+	return true
+}
 
-	query := "SELECT * from products"
+func GetAllProduct(table_name string) ([]Product, error) {
+	var userProducts []Product
+
+	// table_name = bersihkan string dari caracter @ ,"/ dll " , begitu juga di saat membuat databasenya
+
+	reg := regexp.MustCompile(`[^a-zA-Z0-9_]+`)
+
+	clean_table_name := reg.ReplaceAllString(table_name, "")
+
+	query := fmt.Sprintf("SElECT * FROM product_%s", clean_table_name)
 	rows, err := config.DB.Query(query)
 	if err != nil {
-		log.Panicln("[x] gagal membaca semua product :", err)
-		return nil, nil
+		log.Println("[x](GetAllProductForUser) gagal membaca product atas nama :", table_name, ":", err)
 	}
 	defer rows.Close()
 
 	for rows.Next() {
-		var product Product
-		err := rows.Scan(&product.ID, &product.Name, &product.IDR, &product.Source, &product.Description, &product.Status, &product.CreatedAt, &product.UpdatedAt)
+		var userProduct Product
+		err := rows.Scan(&userProduct.ID, &userProduct.Name, &userProduct.DailyReward, &userProduct.TotalProduct, &userProduct.Expired, &userProduct.CreatedAt, &userProduct.UpdatedAt)
 		if err != nil {
-			log.Println("[x] gagal mendapatkan data product tertentu :", err)
+			log.Println("[x ] (GetAllProductForUser) gagal mendapat data product user tertentu :", err)
 			return nil, nil
 		}
-		products = append(products, product)
+		userProducts = append(userProducts, userProduct)
 	}
-	return products, nil
-}
-
-// / tapi ini gak saya gunakan sekarang mungkin karena sudah saya siapainn data di DB pogress nya
-func GetProductByID(id int64) (*Product, error) {
-	query := `SELECT name, idr, description FROM products WHERE id = $1;`
-
-	// Jalankan query
-	row := config.DB.QueryRow(query, id)
-
-	// Variabel untuk menampung hasil
-	var product Product
-
-	// Scan hasil query ke variabel
-	err := row.Scan(&product.Name, &product.IDR, &product.Description)
-	if err != nil {
-		if err == sql.ErrNoRows {
-			log.Println("[!] Data dengan ID", id, "tidak ditemukan")
-			return nil, err // return error agar bisa dideteksi caller
-		}
-		log.Println("[x] Error saat mengambil data dengan ID", id, ":", err)
-		return nil, err
-	}
-
-	return &product, nil
-}
-
-// / kembalikan 5 product
-func GetProductTop5() {
+	return userProducts, nil
 
 }

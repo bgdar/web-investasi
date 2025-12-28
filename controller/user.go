@@ -11,15 +11,35 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
-func Profile(context *gin.Context) {
-
-	context.HTML(http.StatusOK, "user/profile.html", nil)
+func UserHome(ctx *gin.Context) {
+	ctx.HTML(http.StatusOK, "user/home.html", nil)
 }
 
-func SignInPage(context *gin.Context) {
+func UserProfile(context *gin.Context) {
+
+	username, err := context.Cookie("username")
+
+	if err != nil {
+		log.Println("[x] Tidak mendapakan nama user di cookie, err : ", err)
+	}
+
+	user, err := model.GetUserByName(username)
+	if err != nil {
+		log.Printf("[x] gagal mendapatkan user dari database , file controller/user : %v", err)
+	}
+
+	context.HTML(http.StatusOK, "user/profile.html", gin.H{
+		"title":    "profile",
+		"username": user.Name,
+		"email":    user.Email,
+		"saldo":    user.Saldo,
+	})
+}
+
+func UserSignInPage(context *gin.Context) {
 	context.HTML(http.StatusOK, "user/sign-in.html", nil)
 }
-func SignIpPost(jwtKey []byte) gin.HandlerFunc {
+func UserSignIpPost(jwtKey []byte) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 
 		name := ctx.PostForm("username")
@@ -70,7 +90,7 @@ func SignIpPost(jwtKey []byte) gin.HandlerFunc {
 		maxAge := int(time.Until(expiredTime).Seconds())
 
 		// set cookie token dan username
-		ctx.SetCookie("token", tokenString, maxAge, "/", "", false, true)
+		ctx.SetCookie("user-token", tokenString, maxAge, "/", "", false, true)
 		ctx.SetCookie("user", name, maxAge, "/", "", false, true)
 
 		ctx.Redirect(http.StatusFound, "/user/")
@@ -78,16 +98,18 @@ func SignIpPost(jwtKey []byte) gin.HandlerFunc {
 	}
 }
 
-func SignUpPage(context *gin.Context) {
+func UserSignUpPage(context *gin.Context) {
 	context.HTML(http.StatusOK, "user/sign-up.html", nil)
 
 }
-func SignUpPost(ctx *gin.Context) {
+func UserSignUpPost(ctx *gin.Context) {
 	// panggil atau buat database atas nama user saat pertama kali reqiester
 
 	name := ctx.PostForm("username")
 	email := ctx.PostForm("email")
 	password := ctx.PostForm("password")
+
+	log.Println("data user sign-up",name , email , password)
 
 	isUser, err := model.IsUserExists(name, password)
 	if err != nil {

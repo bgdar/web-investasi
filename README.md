@@ -16,7 +16,7 @@
 - `fontawesome` : font yang di guanakan di web ini
 - `pq` : conector untuk koneksi ke database PogressSql
 - `jwt` : untuk Login user mengguanakn Json web Token
-  client : menggunaakn Cookies
+  client : client yaitu **admin** **user** dan menggunaakn Cookies
   > cek configurasi database di /config/config.go
 
 ### Controller
@@ -83,7 +83,12 @@ example penggunana
 
 ### database
 
-![Structure table database]("./structure table.png")
+#### Table
+
+- `products` : di mana admin mempromosikan product product yang bisa di invest
+- `product` : di mana user sudah memilih product yang di berinvestasi di situ , dan pasti memiliki hubungan ke products
+  > Note : table **products** dengan **product** itu berbeda
+
 <br>
 Akses database PogressSql
 
