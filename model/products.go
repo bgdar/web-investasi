@@ -70,7 +70,7 @@ func GetAllProdcts() ([]Products, error) {
 }
 
 // / tapi ini gak saya gunakan sekarang mungkin karena sudah saya siapainn data di DB pogress nya
-func GetProductByIDs(id int64) (*Products, error) {
+func GetProductsByID(id int64) (*Products, error) {
 	query := `SELECT name, idr, description FROM products WHERE id = $1;`
 
 	// Jalankan query
@@ -94,7 +94,7 @@ func GetProductByIDs(id int64) (*Products, error) {
 }
 
 // / kembalikan 5 product
-func GetProductTop5s() {
+func GetProductsTop5() {
 
 }
 

@@ -1,0 +1,74 @@
+{{ define "product/product.html"}} {{ template "header" . }}
+
+<div class="bg-[var(--color-bg)] flex gap-2  text-[var(--color-jet-black)]">
+
+{{ template "navbar-user" }}
+  <div class=" mx-auto text-center max-w-4xl">
+  <header class="py-10">
+    <h1 class="text-3xl font-semibold text-[var(--color-charcoal)] mb-2">
+      Daftar Robot Investasi
+    </h1>
+    <p class="text-[var(--color-gray-dark)]">
+      Pilih robot investasi yang ingin kamu danai, pantau performanya, dan
+      tukarkan hasilnya sesuai waktu yang ditentukan.
+    </p>
+  </header>
+  <main
+    class="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4 pb-16"
+  >
+    {{ if .products }} {{ range $i , $value := .products }}
+
+    <div
+      class="bg-white border border-[var(--color-gainsboro)] rounded-2xl overflow-hidden shadow-[var(--shadow-md)] hover:shadow-[var(--shadow-lg)] transition-[var(--transition-medium)]"
+    >
+      <div class="relative">
+        <img
+          src="{{ $value.Source }}"
+          alt="AstraBot X1"
+          class="w-full h-48 object-cover"
+        />
+        <span
+          class="absolute top-2 right-2 bg-[var(--color-steel-blue)] text-white text-xs px-3 py-1 rounded-full shadow-[var(--shadow-soft)]"
+        >
+{{ printf "%.0f" $value.IDR }}
+        </span>
+      </div>
+      <div class="p-4">
+        <h2 class="text-lg font-semibold text-[var(--color-jet-black)]">
+          {{ $value.Name }}
+        </h2>
+        <p class="text-sm text-[var(--color-gray-dark)] mt-1">
+          {{ $value.Description }}
+        </p>
+        <div
+          class="flex justify-between items-center mt-4 text-sm text-[var(--color-gray)]"
+        >
+          <span>{{ $value.Status }}</span>
+          <!-- gabung path saat ini dengan id selanjutnay  | rencana selanjutnya adalah hashing id ini | curent_path sudah ada /.../-->
+            <a href="{{ $.curent_path }}{{ $value.ID }}">
+            <button
+              class="bg-[var(--color-charcoal)] hover:bg-[var(--color-steel-blue)] text-white px-3 py-1 rounded-lg transition-[var(--transition-fast)] shadow-[var(--shadow-soft)]"
+            >
+              Investasi
+            </button>
+          </a>
+        </div>
+      </div>
+    </div>
+    {{ end }} {{ else }}
+    <div>
+      <p> Product Empty </p>
+    </div>
+    {{ end }}
+  </main>
+
+    <p>curent_path : {{ .curent_path }}</p>
+  <footer
+    class="max-w-4xl mx-auto text-center pb-10 text-[var(--color-gray-dark)]"
+  >
+     Semakin cepat kamu berinvestasi, semakin besar potensi keuntungan yang
+    bisa kamu capai.
+  </footer>
+  </div>
+</div>
+{{ end }}

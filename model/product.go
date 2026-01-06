@@ -94,7 +94,7 @@ func DropProduct(table_name string) bool {
 }
 
 func GetAllProduct(table_name string) ([]Product, error) {
-	var userProducts []Product
+	var userProduct []Product
 
 	// table_name = bersihkan string dari caracter @ ,"/ dll " , begitu juga di saat membuat databasenya
 
@@ -105,7 +105,7 @@ func GetAllProduct(table_name string) ([]Product, error) {
 	query := fmt.Sprintf("SElECT * FROM product_%s", clean_table_name)
 	rows, err := config.DB.Query(query)
 	if err != nil {
-		log.Println("[x](GetAllProductForUser) gagal membaca product atas nama :", table_name, ":", err)
+		log.Println("[x](GetAllProduct) gagal membaca product atas nama :", table_name, ":", err)
 	}
 	defer rows.Close()
 
@@ -116,8 +116,29 @@ func GetAllProduct(table_name string) ([]Product, error) {
 			log.Println("[x ] (GetAllProductForUser) gagal mendapat data product user tertentu :", err)
 			return nil, nil
 		}
-		userProducts = append(userProducts, userProduct)
+		userProduct = append(userProduct, userProduct)
 	}
-	return userProducts, nil
+	return userProduct, nil
 
+}
+
+// / ambil 1 data denagn katagory data apapun di table
+// / T = type  yang akan di cari
+func GetOneDataProduct[T any](field string, value any) (T, error) {
+	var result T
+
+	// sanitize: hanya boleh huruf/underscore
+	valid := regexp.MustCompile(`^[a-zA-Z_]+$`)
+	if !valid.MatchString(field) {
+		return result, fmt.Errorf("[x] (GetOneDataProduct) invalid column name")
+	}
+
+	query := fmt.Sprintf("SELECT %s FROM product WHERE %s = $1 LIMIT 1", field, field)
+
+	err := config.DB.QueryRow(query, value).Scan(&result)
+	if err != nil {
+		return result, err
+	}
+
+	return result, nil
 }

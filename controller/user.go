@@ -73,7 +73,7 @@ func UserSignIpPost(jwtKey []byte) gin.HandlerFunc {
 		}
 
 		// buat token baru | Untuk HS256, key adalah string biasa / []byte
-		tokenJWT := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+		tokenJWT := jwt.NewWithClaims(jwt.SigningMethodES256, claims)
 
 		// tanda tangani
 		tokenString, err := tokenJWT.SignedString(jwtKey)
@@ -123,14 +123,14 @@ func UserSignUpPost(ctx *gin.Context) {
 
 	}
 
-	// buat table atas nama user ini
-	model.CreateProductForUser(name)
-	// simpan adata nya
-	if err := model.AddUser(name, password, email); err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{
-			"error": "ada yang salah saat menambah user baru",
-		})
-		return
-	}
+	// // buat table atas nama user ini ||  SUDA  TIDAK  di perluakn lagi
+	// model.CreateProductForUser(name)
+	// // simpan adata nya
+	// if err := model.AddUser(name, password, email); err != nil {
+	// 	ctx.JSON(http.StatusInternalServerError, gin.H{
+	// 		"error": "ada yang salah saat menambah user baru",
+	// 	})
+	// 	return
+	// }
 
 }

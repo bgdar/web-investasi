@@ -32,14 +32,20 @@ func main() {
 		base_route.GET("/block", controller.Block)
 	}
 
-	product_route := route.Group("/product")
-	product_route.Use(middleware.UserLoggin(jwtKey)) // UserLogginsemua menggunaakn middleware
+	products_route := route.Group("/products")
+	products_route.Use(middleware.UserLoggin(jwtKey)) // UserLogginsemua menggunaakn middleware
 	{
-		product_route.GET("/", controller.ProductGet)
-		product_route.GET("/:id", controller.ProductIdGet) // kirim id
-		product_route.GET("/product-user", controller.ProductForUserGet)
-		product_route.POST("/product-user", controller.ProductForUserPost)
+		products_route.GET("/", controller.ProductsGet)
+		products_route.GET("/:id", controller.ProductsIdGet) // kirim id
 	}
+
+	product_route := route.Group("/product")
+	{
+		product_route.GET("/", controller.ProductForUserGet)
+		product_route.POST("/", controller.ProductForUserPost)
+
+	}
+
 
 	user_route := route.Group("/user")
 	{

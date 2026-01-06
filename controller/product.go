@@ -11,40 +11,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// / tampilkan sebagai halaman utama apliaksi
-func ProductGet(cxt *gin.Context) {
-
-	var products, err = model.GetAllProdct()
-	if err != nil {
-		log.Printf("[x] ada yg salah di model product saat mendapatkan semua product : %v", err)
-	}
-	// log.Println("produtcs : ", products)
-	cxt.HTML(http.StatusOK, "product/product.html", gin.H{
-		"products":    products,
-		"curent_path": cxt.Request.URL.Path,
-	})
-}
-
-// / function untuk mengupdate product yang di pilih user
-func ProductIdGet(ctx *gin.Context) {
-	id := ctx.Param("id")
-	idconver, _ := strconv.ParseInt(id, 10, 64)
-	product, err := model.GetProductByID(idconver)
-
-	if err != nil {
-		log.Println("[x] error dapatkan id ", err)
-		return
-	}
-
-	ctx.HTML(http.StatusOK, "product/product-id.html", gin.H{
-		"title ":              fmt.Sprintf(" product | %s", product.Name),
-		"product_id":          product.ID,
-		"product_name":        product.Name,
-		"product_idr":         product.IDR,
-		"product_description": product.Description,
-	})
-}
-
 func ProductForUserGet(ctx *gin.Context) {
 
 	table_name, err := ctx.Cookie("user")
@@ -53,18 +19,17 @@ func ProductForUserGet(ctx *gin.Context) {
 		return
 	}
 
-	userProduct, err := model.GetAllProductForUser(table_name)
+	userProduct, err := model.GetAllProduct(table_name)
 	if err != nil {
 		log.Println("[x] gagal mendapatka product untuk user")
 		ctx.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
-	ctx.HTML(http.StatusOK, "product/product-user.html", gin.H{
+	ctx.HTML(http.StatusOK, "product/product.html", gin.H{
 		"user_product": userProduct,
 	})
 
 }
-
 // / update product untuk usernya
 func ProductForUserPost(ctx *gin.Context) {
 
@@ -73,7 +38,6 @@ func ProductForUserPost(ctx *gin.Context) {
 
 		log.Println("gagal mendapatkan username")
 	}
-
 	type DataType struct {
 		Name         string `json:"name"`
 		TotalProduct int16  `json:"total_product"`
@@ -90,11 +54,14 @@ func ProductForUserPost(ctx *gin.Context) {
 	}
 
 	//user di simpan di cookies cookies
-	user, err := ctx.Cookie("user")
-	if err != nil {
-		log.Println("[x] tidak di dapatkan user ", err)
-	}
+	// user, err := ctx.Cookie("user")
+	// if err != nil {
+	// 	log.Println("[x] tidak di dapatkan user ", err)
+	// }
 
-	// simpan ke table product user
-	model.AddProductForUser(fmt.Sprintf("table_%s", user), data.Name, data.TotalProduct, time.Now(), username)
+	// simpan ke table product user  | sudha beda teknik 
+	// model.Add(fmt.Sprintf("table_%s", user), data.Name, data.TotalProduct, time.Now(), username)
+
+	// simpan product baru atas nama user 
+	model.AddProduct(data.Name,data.TotalProduct,time.Now(),username)
 }
